@@ -1,10 +1,10 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Flicks 'n Shows",
+  "name": "Flicks 'n Shows",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "192x192",
+      "src": "/assets/images/logo.png",
+      "sizes": "85x61",
       "type": "image/png"
     }
   ],

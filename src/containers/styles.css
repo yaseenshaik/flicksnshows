@@ -1,0 +1,18 @@
+body {
+  padding: 54px 0;
+}
+
+.movie {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+}
+
+.movie--poster {
+  width: 30%;
+}
+
+.movie--text {
+  width: 70%;
+  float: left;
+}
