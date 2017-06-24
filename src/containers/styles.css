@@ -2,6 +2,10 @@ body {
   padding: 54px 0;
 }
 
+.hidden {
+  display: none;
+}
+
 .movie {
   margin-bottom: 20px;
   border-bottom: 1px solid #ccc;
@@ -15,4 +19,10 @@ body {
 .movie--text {
   width: 70%;
   float: left;
+}
+
+/* resets */
+
+.ui.items > .item {
+  margin: 2em 0;
 }

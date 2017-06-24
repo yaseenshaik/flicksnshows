@@ -1,4 +1,5 @@
 import { normalize } from 'normalizr'
+import { camelizeKeys } from 'humps'
 
 const callApi = (endpoint, schema) => {
   return fetch(endpoint).then(response =>
@@ -7,7 +8,7 @@ const callApi = (endpoint, schema) => {
         return Promise.reject(json)
       }
 
-      return schema ? normalize(json, schema) : { ...json }
+      return camelizeKeys(normalize(json, schema))
     })
   )
 }
@@ -32,6 +33,10 @@ export default store => next => action => {
 
   if (typeof endpoint !== 'string') {
     throw new Error('Specify a string endpoint URL.')
+  }
+
+  if (!schema) {
+    throw new Error('Specify a schema.')
   }
 
   if (!Array.isArray(types) || types.length !== 3) {

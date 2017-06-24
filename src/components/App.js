@@ -1,13 +1,14 @@
 import React from 'react'
-import { Container } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import { Divider } from 'semantic-ui-react'
 import Header from './Header'
 
 const App = ({ children }) =>
-  <Container>
+  <div>
     <Header />
+    <Divider horizontal hidden />
     {children}
-  </Container>
+  </div>
 
 App.propTypes = {
   children: PropTypes.node

@@ -1,23 +1,47 @@
 import React from 'react'
-import { Item, Icon } from 'semantic-ui-react'
+import { Item, Icon, Rating } from 'semantic-ui-react'
+import { Link } from 'react-router'
+import truncate from 'lodash/truncate'
+import { imageBaseUrl } from '../constants'
 
-const imageBaseUrl = 'https://image.tmdb.org/t/p/w300/'
+export default props => {
+  const { type } = props
+  let title, date
 
-export default props =>
-  <Item>
-    <Item.Image size="small" src={imageBaseUrl + props.poster_path} />
-    <Item.Content>
-      <Item.Header as="a">{props.title || props.name}</Item.Header>
-      <Item.Meta>
-        <Icon name="calendar" />{' '}
-        {new Date(
-          props.release_date || props.first_air_date
-        ).toLocaleDateString()}
-        {' '}
-      </Item.Meta>
-      <Item.Description>{props.overview}</Item.Description>
-      <Item.Extra>
-        <Icon color="yellow" name="star" /> {props.vote_average}
-      </Item.Extra>
-    </Item.Content>
-  </Item>
+  if (type === 'flick') {
+    title = props.title
+    date = props.releaseDate
+  } else {
+    title = props.name
+    date = props.firstAirDate
+  }
+
+  return (
+    <Item>
+      <Item.Image size="small" src={imageBaseUrl + props.posterPath} />
+      <Item.Content>
+        <Item.Header>
+          <Link
+            to={`/${type}/${props.id}/${title.replace(/[\s.<>:;&,]/g, '-')}`}
+          >
+            {title}
+          </Link>
+        </Item.Header>
+        <Item.Meta>
+          <Icon name="calendar" />{' '}
+          {new Date(date).getFullYear()}
+          {' '}
+        </Item.Meta>
+        <Item.Description>
+          {truncate(props.overview, { length: 250 })}
+        </Item.Description>
+        <Item.Extra>
+          {props.voteAverage} <Icon color="yellow" name="star" />
+          {' '}
+          Favorite <Rating icon="heart" onRate={props.toggleFavorite} />
+        </Item.Extra>
+
+      </Item.Content>
+    </Item>
+  )
+}
