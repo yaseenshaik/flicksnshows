@@ -8,7 +8,7 @@ const muted = {
 export default () =>
   <Segment padded inverted style={{ marginTop: -14, borderRadius: 0 }}>
     <Container text>
-      <Grid textAlign="center" inverted>
+      <Grid textAlign="center" inverted stackable>
         <Grid.Row columns={2}>
           <Grid.Column>
             <Icon name="mail" />
