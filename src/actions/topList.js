@@ -21,7 +21,7 @@ export const fetchFlicksTop = () => ({
 export const fetchShowsTop = () => ({
   [CALL_API]: {
     types: [SHOWS_TOP_REQUEST, SHOWS_TOP_SUCCESS, SHOWS_TOP_FAILURE],
-    endpoint: `${apiBaseUrl}/tv/top_rated?api_key=${tmdbApiKey}&language=en-US&page=1`,
+    endpoint: `${apiBaseUrl}/tv/popular?api_key=${tmdbApiKey}&language=en-US&page=1`,
     schema: showListSchema
   }
 })

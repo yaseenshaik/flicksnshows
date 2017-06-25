@@ -5,13 +5,15 @@ import truncate from 'lodash/truncate'
 import { imageBaseUrl } from '../constants'
 
 export default props => {
-  const { type } = props
+  let { type } = props
   let title, date
 
   if (type === 'flick') {
     title = props.title
     date = props.releaseDate
+    type = 'flick'
   } else {
+    type = 'show'
     title = props.name
     date = props.firstAirDate
   }
@@ -38,7 +40,13 @@ export default props => {
         <Item.Extra>
           {props.voteAverage} <Icon color="yellow" name="star" />
           {' '}
-          Favorite <Rating icon="heart" onRate={props.toggleFavorite} />
+          Favorite
+          {' '}
+          <Rating
+            icon="heart"
+            onRate={props.toggleFavorite}
+            rating={props.favorite ? 1 : 0}
+          />
         </Item.Extra>
 
       </Item.Content>

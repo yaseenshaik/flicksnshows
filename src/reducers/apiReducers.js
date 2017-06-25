@@ -20,6 +20,11 @@ import {
   REVIEWS_SUCCESS,
   REVIEWS_FAILURE
 } from '../actions'
+import {
+  SEARCH_REQUEST,
+  SEARCH_SUCCESS,
+  SEARCH_FAILURE
+} from '../actions/search'
 
 const apiReducers = combineReducers({
   flicksTopList: generateApiReducer({
@@ -62,6 +67,14 @@ const apiReducers = combineReducers({
       ...state,
       fetchedOnce: true,
       isFetching: false
+    })
+  }),
+  searchList: generateApiReducer({
+    types: [SEARCH_REQUEST, SEARCH_SUCCESS, SEARCH_FAILURE],
+    successReducer: (state, action) => ({
+      ...state,
+      isFetching: false,
+      ids: get(action, 'response.entities.searchList.1.results', [])
     })
   })
 })

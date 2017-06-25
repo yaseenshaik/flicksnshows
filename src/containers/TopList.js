@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Menu, Item, Container } from 'semantic-ui-react'
 import { fetchTop } from '../actions/topList'
+import { toggleFavorite } from '../actions/favorites'
 import MediaItem from '../components/MediaItem'
 import './styles.css'
 
@@ -24,7 +25,12 @@ class TopList extends Component {
     const flicksKey = 'flick'
     const showsKey = 'show'
     const { activeItem } = this.state
-    const { flicksTopList, showsTopList } = this.props
+    const {
+      flicksTopList,
+      showsTopList,
+      favorites,
+      toggleFavorite
+    } = this.props
 
     return (
       <Container text>
@@ -47,12 +53,24 @@ class TopList extends Component {
         </Menu>
         <Item.Group className={activeItem !== flicksKey ? 'hidden' : ''}>
           {flicksTopList.map(item =>
-            <MediaItem type={flicksKey} key={item.id} {...item} />
+            <MediaItem
+              key={item.id}
+              {...item}
+              type={flicksKey}
+              favorite={favorites.flicks[item.id]}
+              toggleFavorite={e => toggleFavorite(item.id, flicksKey)}
+            />
           )}
         </Item.Group>
         <Item.Group className={activeItem !== showsKey ? 'hidden' : ''}>
           {showsTopList.map(item =>
-            <MediaItem type={showsKey} key={item.id} {...item} />
+            <MediaItem
+              key={item.id}
+              {...item}
+              type={showsKey}
+              favorite={favorites.shows[item.id]}
+              toggleFavorite={e => toggleFavorite(item.id, showsKey)}
+            />
           )}
         </Item.Group>
       </Container>
@@ -63,17 +81,20 @@ class TopList extends Component {
 const mapStateToProps = state => {
   const {
     active: { flicksTopList, showsTopList },
-    entities: { flicks, shows }
+    entities: { flicks, shows },
+    favorites
   } = state
 
   return {
     flicksTopList: (flicksTopList.ids || []).map(id => flicks[id]),
-    showsTopList: (showsTopList.ids || []).map(id => shows[id])
+    showsTopList: (showsTopList.ids || []).map(id => shows[id]),
+    favorites
   }
 }
 
 const mapDispatchToProps = {
-  fetchTop
+  fetchTop,
+  toggleFavorite
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopList)

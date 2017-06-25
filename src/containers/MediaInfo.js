@@ -12,6 +12,7 @@ import {
   Header,
   List,
   Menu,
+  Rating,
   Segment,
   Statistic,
   TextArea
@@ -19,6 +20,7 @@ import {
 import get from 'lodash/get'
 import { loadDetails, loadVideos, loadReviews } from '../actions'
 import { putNote } from '../actions/notes'
+import { toggleFavorite } from '../actions/favorites'
 import { imageBaseUrl } from '../constants'
 
 class MediaInfo extends Component {
@@ -73,6 +75,8 @@ class MediaInfo extends Component {
   render() {
     const {
       details,
+      favorite,
+      toggleFavorite,
       status,
       videos,
       reviews,
@@ -87,7 +91,10 @@ class MediaInfo extends Component {
     let title, date
     let stats = [
       { label: 'Rating', value: details.voteAverage },
-      { label: 'Runtime', value: details.runtime || details.episodeRunTime[0] }
+      {
+        label: 'Runtime',
+        value: details.runtime || details.episodeRunTime[0] || 'NA'
+      }
     ]
 
     if (type === 'flick') {
@@ -142,6 +149,14 @@ class MediaInfo extends Component {
                   </List.Item>}
               </List>
               <Divider horizontal hidden />
+              Favorite
+              {' '}
+              <Rating
+                icon="heart"
+                onRate={e => toggleFavorite(id, type)}
+                rating={favorite ? 1 : 0}
+              />
+
             </Grid.Column>
           </Grid>
           <Menu pointing secondary size="large">
@@ -209,7 +224,7 @@ class MediaInfo extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { type, id } = ownProps.params
-  const { entities, active, notes } = state
+  const { entities, active, notes, favorites } = state
   const details = entities[type + 's'][id] || {}
   const status = active.media[`${type}_${id}`] || {}
   const videos = entities[type + 'sVideos'] || {}
@@ -220,6 +235,8 @@ const mapStateToProps = (state, ownProps) => {
   const reviewsList = get(entities, [type + 'sReviewsList', id, 'results'], [])
   const reviewsStatus = active.reviews[`${type}_${id}`] || {}
   const note = notes[`${type}_${id}`] || ''
+  const favorite = favorites[type + 's'][id]
+
   return {
     details,
     status,
@@ -227,7 +244,8 @@ const mapStateToProps = (state, ownProps) => {
     videos: videosList.map(id => videos[id]),
     reviewsStatus,
     reviews: reviewsList.map(id => reviews[id]),
-    note
+    note,
+    favorite
   }
 }
 
@@ -235,7 +253,8 @@ const mapDispatchToProps = {
   loadDetails,
   loadVideos,
   loadReviews,
-  putNote
+  putNote,
+  toggleFavorite
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MediaInfo)
