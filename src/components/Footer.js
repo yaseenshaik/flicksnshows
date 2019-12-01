@@ -11,9 +11,9 @@ export default () =>
       <Grid textAlign="center" inverted stackable>
         <Grid.Row columns={2}>
           <Grid.Column>
-            <Icon name="mail" />
-            <a style={muted} href="mailto:flicksnshows@codecara.ml">
-              flicksnshows@codecara.ml
+            <Icon name="github" />
+            <a style={muted} href="https://github.com/yaseenshaik/flicksnshows">
+              flicksnshows
             </a>
           </Grid.Column>
           <Grid.Column>
